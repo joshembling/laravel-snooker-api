@@ -1,12 +1,12 @@
 <?php
 
-namespace VendorName\Skeleton\Commands;
+namespace JoshEmbling\Snooker\Commands;
 
 use Illuminate\Console\Command;
 
-class SkeletonCommand extends Command
+class SnookerCommand extends Command
 {
-    public $signature = 'skeleton';
+    public $signature = 'laravel-snooker-api';
 
     public $description = 'My command';
 
