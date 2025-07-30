@@ -13,7 +13,7 @@ class EventMatchesRequest extends Request
 
     protected Method $method = Method::GET;
 
-    public function __construct(protected int|string $event) {}
+    public function __construct(protected int $eventId) {}
 
     public function resolveEndpoint(): string
     {
@@ -21,7 +21,7 @@ class EventMatchesRequest extends Request
             ->append('?')
             ->append(http_build_query([
                 't' => 6,
-                'e' => $this->event,
+                'e' => $this->eventId,
             ]))
             ->toString();
     }

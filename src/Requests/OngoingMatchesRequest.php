@@ -7,21 +7,20 @@ use JoshEmbling\Snooker\Integrations\SnookerConnector;
 use Saloon\Enums\Method;
 use Saloon\Http\Request;
 
-class EventsSeasonRequest extends Request
+class OngoingMatchesRequest extends Request
 {
     protected ?string $connector = SnookerConnector::class;
 
     protected Method $method = Method::GET;
 
-    public function __construct(protected int $seasonId, protected string $tour) {}
+    public function __construct(protected string $tour) {}
 
     public function resolveEndpoint(): string
     {
         return Str::of('/')
             ->append('?')
             ->append(http_build_query([
-                't' => 5,
-                's' => $this->seasonId,
+                't' => 7,
                 'tr' => $this->tour,
             ]))
             ->toString();

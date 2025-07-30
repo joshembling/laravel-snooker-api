@@ -13,7 +13,7 @@ class MatchRequest extends Request
 
     protected Method $method = Method::GET;
 
-    public function __construct(protected int|string $eventId, protected int|string $roundId, protected int|string $matchNumber) {}
+    public function __construct(protected int $eventId, protected int $roundId, protected int $matchNumber) {}
 
     public function resolveEndpoint(): string
     {
