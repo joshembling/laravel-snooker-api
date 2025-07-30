@@ -4,13 +4,10 @@ namespace JoshEmbling\Snooker\Facades;
 
 use Illuminate\Support\Facades\Facade;
 
-/**
- * @see \JoshEmbling\Snooker\Snooker
- */
 class Snooker extends Facade
 {
-    protected static function getFacadeAccessor(): string
+    protected static function getFacadeAccessor()
     {
-        return \JoshEmbling\Snooker\Snooker::class;
+        return 'snooker';  // matches the singleton key in your service provider
     }
 }
