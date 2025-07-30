@@ -4,8 +4,12 @@ namespace JoshEmbling\Snooker\Services;
 
 use JoshEmbling\Snooker\Integrations\SnookerConnector;
 use JoshEmbling\Snooker\Requests\EventRequest;
+use JoshEmbling\Snooker\Requests\EventsSeasonRequest;
+use JoshEmbling\Snooker\Requests\MatchRequest;
 use JoshEmbling\Snooker\Requests\PlayerRequest;
 use JoshEmbling\Snooker\Resources\EventResource;
+use JoshEmbling\Snooker\Resources\EventsSeasonResource;
+use JoshEmbling\Snooker\Resources\MatchResource;
 use JoshEmbling\Snooker\Resources\PlayerResource;
 
 class SnookerService
@@ -23,9 +27,29 @@ class SnookerService
 
         $response = $this->connector->send($request);
 
-        return (new EventResource((object) $response->json()[0]))->toArray(request());
+        return new EventResource((object) $response->json()[0]);
+    }
 
-        // return EventResource::collection(collect($response->json()))->toArray(request());
+    public function eventsSeason(int|string $season, string $tour)
+    {
+        $request = new EventsSeasonRequest($season, $tour);
+
+        $response = $this->connector->send($request);
+
+        return EventsSeasonResource::collection($response->json());
+    }
+
+    public function match(int|string $eventId, int|string $roundId, int|string $matchNumber)
+    {
+        $request = new MatchRequest(
+            eventId: $eventId,
+            roundId: $roundId,
+            matchNumber: $matchNumber
+        );
+
+        $response = $this->connector->send($request);
+
+        return new MatchResource((object) $response->json()[0]);
     }
 
     public function player(int|string $id)
@@ -34,6 +58,6 @@ class SnookerService
 
         $response = $this->connector->send($request);
 
-        return (new PlayerResource((object) $response->json()[0]))->toArray(request());
+        return new PlayerResource((object) $response->json()[0]);
     }
 }
