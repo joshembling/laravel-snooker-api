@@ -3,6 +3,7 @@
 namespace JoshEmbling\Snooker\Services;
 
 use JoshEmbling\Snooker\Integrations\SnookerConnector;
+use JoshEmbling\Snooker\Requests\EventMatchesRequest;
 use JoshEmbling\Snooker\Requests\EventRequest;
 use JoshEmbling\Snooker\Requests\EventsSeasonRequest;
 use JoshEmbling\Snooker\Requests\MatchRequest;
@@ -28,6 +29,15 @@ class SnookerService
         $response = $this->connector->send($request);
 
         return new EventResource((object) $response->json()[0]);
+    }
+
+    public function eventMatches(int|string $id)
+    {
+        $request = new EventMatchesRequest($id);
+
+        $response = $this->connector->send($request);
+
+        return MatchResource::collection($response->json());
     }
 
     public function eventsSeason(int|string $season, string $tour)
