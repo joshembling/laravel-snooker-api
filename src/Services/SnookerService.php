@@ -6,15 +6,20 @@ use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
 use Illuminate\Http\Resources\Json\JsonResource;
 use JoshEmbling\Snooker\Integrations\SnookerConnector;
 use JoshEmbling\Snooker\Requests\EventMatchesRequest;
+use JoshEmbling\Snooker\Requests\EventPlayersRequest;
 use JoshEmbling\Snooker\Requests\EventRequest;
-use JoshEmbling\Snooker\Requests\EventsSeasonRequest;
+use JoshEmbling\Snooker\Requests\EventsBySeasonRequest;
 use JoshEmbling\Snooker\Requests\MatchRequest;
 use JoshEmbling\Snooker\Requests\OngoingMatchesRequest;
+use JoshEmbling\Snooker\Requests\PlayerMatchesBySeasonRequest;
 use JoshEmbling\Snooker\Requests\PlayerRequest;
+use JoshEmbling\Snooker\Requests\PlayersRequest;
+use JoshEmbling\Snooker\Requests\RankingsRequest;
 use JoshEmbling\Snooker\Resources\EventResource;
 use JoshEmbling\Snooker\Resources\EventsSeasonResource;
 use JoshEmbling\Snooker\Resources\MatchResource;
 use JoshEmbling\Snooker\Resources\PlayerResource;
+use JoshEmbling\Snooker\Resources\RankingResource;
 
 class SnookerService
 {
@@ -39,20 +44,23 @@ class SnookerService
         return $this->getResponse($request, MatchResource::class, true);
     }
 
-    public function eventsSeason(int $seasonId, string $tour): array|AnonymousResourceCollection
+    public function eventPlayers(int $eventId): array|AnonymousResourceCollection
     {
-        $request = new EventsSeasonRequest($seasonId, $tour);
+        $request = new EventPlayersRequest($eventId);
+
+        return $this->getResponse($request, PlayerResource::class, true);
+    }
+
+    public function eventsSeason(int $season, string $tour): array|AnonymousResourceCollection
+    {
+        $request = new EventsBySeasonRequest($season, $tour);
 
         return $this->getResponse($request, EventsSeasonResource::class, true);
     }
 
     public function match(int $eventId, int $roundId, int $matchNumber): MatchResource
     {
-        $request = new MatchRequest(
-            eventId: $eventId,
-            roundId: $roundId,
-            matchNumber: $matchNumber
-        );
+        $request = new MatchRequest($eventId, $roundId, $matchNumber);
 
         return $this->getResponse($request, MatchResource::class);
     }
@@ -69,6 +77,27 @@ class SnookerService
         $request = new PlayerRequest($playerId);
 
         return $this->getResponse($request, PlayerResource::class);
+    }
+
+    public function players(string $status, int $season, string $gender): array|AnonymousResourceCollection
+    {
+        $request = new PlayersRequest($status, $season, $gender);
+
+        return $this->getResponse($request, PlayerResource::class, true);
+    }
+
+    public function playerMatchesBySeason(int $playerId, int $season, string $tour): array|AnonymousResourceCollection
+    {
+        $request = new PlayerMatchesBySeasonRequest($playerId, $season, $tour);
+
+        return $this->getResponse($request, MatchResource::class, true);
+    }
+
+    public function rankings(string $rankingType, int $season): array|AnonymousResourceCollection
+    {
+        $request = new RankingsRequest($rankingType, $season);
+
+        return $this->getResponse($request, RankingResource::class, true);
     }
 
     private function getResponse($request, $resource, $collection = false): array|AnonymousResourceCollection|JsonResource
