@@ -2,7 +2,6 @@
 
 namespace JoshEmbling\Snooker\Services;
 
-use Illuminate\Support\Facades\Event;
 use JoshEmbling\Snooker\Integrations\SnookerConnector;
 use JoshEmbling\Snooker\Requests\EventRequest;
 use JoshEmbling\Snooker\Requests\PlayerRequest;
@@ -15,7 +14,7 @@ class SnookerService
 
     public function __construct()
     {
-        $this->connector = new SnookerConnector();
+        $this->connector = new SnookerConnector;
     }
 
     public function event(int|string $id)
@@ -26,8 +25,7 @@ class SnookerService
 
         return (new EventResource((object) $response->json()[0]))->toArray(request());
 
-
-        //return EventResource::collection(collect($response->json()))->toArray(request());
+        // return EventResource::collection(collect($response->json()))->toArray(request());
     }
 
     public function player(int|string $id)

@@ -2,9 +2,9 @@
 
 namespace JoshEmbling\Snooker\Requests;
 
+use JoshEmbling\Snooker\Integrations\SnookerConnector;
 use Saloon\Enums\Method;
 use Saloon\Http\Request;
-use JoshEmbling\Snooker\Integrations\SnookerConnector;
 
 class EventRequest extends Request
 {
