@@ -6,6 +6,7 @@ use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
 use Illuminate\Http\Resources\Json\JsonResource;
 use JoshEmbling\Snooker\Integrations\SnookerConnector;
 use JoshEmbling\Snooker\Requests\EventMatchesRequest;
+use JoshEmbling\Snooker\Requests\EventPlayerPointsRequest;
 use JoshEmbling\Snooker\Requests\EventPlayersRequest;
 use JoshEmbling\Snooker\Requests\EventRequest;
 use JoshEmbling\Snooker\Requests\EventsBySeasonRequest;
@@ -15,6 +16,7 @@ use JoshEmbling\Snooker\Requests\PlayerMatchesBySeasonRequest;
 use JoshEmbling\Snooker\Requests\PlayerRequest;
 use JoshEmbling\Snooker\Requests\PlayersRequest;
 use JoshEmbling\Snooker\Requests\RankingsRequest;
+use JoshEmbling\Snooker\Resources\EventPlayerPointsResource;
 use JoshEmbling\Snooker\Resources\EventResource;
 use JoshEmbling\Snooker\Resources\EventsSeasonResource;
 use JoshEmbling\Snooker\Resources\MatchResource;
@@ -49,6 +51,13 @@ class SnookerService
         $request = new EventPlayersRequest($eventId);
 
         return $this->getResponse($request, PlayerResource::class, true);
+    }
+
+    public function eventPlayerPoints(int $eventId): array|AnonymousResourceCollection
+    {
+        $request = new EventPlayerPointsRequest($eventId);
+
+        return $this->getResponse($request, EventPlayerPointsResource::class, true);
     }
 
     public function eventsSeason(int $season, string $tour): array|AnonymousResourceCollection
