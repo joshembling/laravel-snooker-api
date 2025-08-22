@@ -20,7 +20,7 @@ class RoundRequest extends Request
         return Str::of('/')
             ->append('?')
             ->append(http_build_query([
-                't' => 10,
+                't' => 12,
                 'e' => $this->eventId,
                 's' => $this->season,
             ]))
