@@ -16,12 +16,14 @@ use JoshEmbling\Snooker\Requests\PlayerMatchesBySeasonRequest;
 use JoshEmbling\Snooker\Requests\PlayerRequest;
 use JoshEmbling\Snooker\Requests\PlayersRequest;
 use JoshEmbling\Snooker\Requests\RankingsRequest;
+use JoshEmbling\Snooker\Requests\RoundRequest;
 use JoshEmbling\Snooker\Resources\EventPlayerPointsResource;
 use JoshEmbling\Snooker\Resources\EventResource;
 use JoshEmbling\Snooker\Resources\EventsSeasonResource;
 use JoshEmbling\Snooker\Resources\MatchResource;
 use JoshEmbling\Snooker\Resources\PlayerResource;
 use JoshEmbling\Snooker\Resources\RankingResource;
+use JoshEmbling\Snooker\Resources\RoundResource;
 
 class SnookerService
 {
@@ -107,6 +109,13 @@ class SnookerService
         $request = new RankingsRequest($rankingType, $season);
 
         return $this->getResponse($request, RankingResource::class, true);
+    }
+
+    public function rounds(int $eventId, int $season): array|AnonymousResourceCollection
+    {
+        $request = new RoundRequest($eventId, $season);
+
+        return $this->getResponse($request, RoundResource::class, true);
     }
 
     private function getResponse($request, $resource, $collection = false): array|AnonymousResourceCollection|JsonResource
