@@ -111,9 +111,9 @@ class SnookerService
         return $this->getResponse($request, RankingResource::class, true);
     }
 
-    public function rounds(int $eventId, int $season): array|AnonymousResourceCollection
+    public function rounds(int $season, ?int $eventId = null): array|AnonymousResourceCollection
     {
-        $request = new RoundRequest($eventId, $season);
+        $request = new RoundRequest($season, $eventId);
 
         return $this->getResponse($request, RoundResource::class, true);
     }

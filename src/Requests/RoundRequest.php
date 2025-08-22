@@ -13,17 +13,26 @@ class RoundRequest extends Request
 
     protected Method $method = Method::GET;
 
-    public function __construct(protected int $eventId, protected int $season) {}
+    public function __construct(protected int $season, protected ?int $eventId = null) {}
 
     public function resolveEndpoint(): string
     {
-        return Str::of('/')
-            ->append('?')
-            ->append(http_build_query([
+        if (!$this->eventId) {
+            $query = [
+                't' => 12,
+                's' => $this->season,
+            ];
+        } else {
+            $query = [
                 't' => 12,
                 'e' => $this->eventId,
                 's' => $this->season,
-            ]))
+            ];
+        }
+
+        return Str::of('/')
+            ->append('?')
+            ->append(http_build_query($query))
             ->toString();
     }
 }
