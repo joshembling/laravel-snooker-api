@@ -17,7 +17,7 @@ class RoundRequest extends Request
 
     public function resolveEndpoint(): string
     {
-        if (!$this->eventId) {
+        if (! $this->eventId) {
             $query = [
                 't' => 12,
                 's' => $this->season,
