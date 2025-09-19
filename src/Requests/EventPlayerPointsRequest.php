@@ -18,7 +18,7 @@ class EventPlayerPointsRequest extends Request
 
     protected int $connectTimeout = 10;
 
-    protected int $requestTimeout = 60;
+    protected int $requestTimeout = 120;
 
     public function __construct(protected int $eventId) {}
 
