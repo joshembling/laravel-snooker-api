@@ -16,24 +16,25 @@ class SnookerServiceProvider extends PackageServiceProvider
          *
          * More info: https://github.com/spatie/laravel-package-tools
          */
+        // The config file is named for the API rather than the package, so it
+        // has to be declared explicitly — `hasConfigFile()` would look for
+        // laravel-snooker-api.php and silently merge nothing.
         $package
             ->name('laravel-snooker-api')
-            ->hasConfigFile()
+            ->hasConfigFile('snooker-api')
             ->hasViews()
             ->hasMigration('create_laravel_snooker_api_table')
             ->hasCommand(SnookerCommand::class);
     }
 
-    public function register()
+    /**
+     * Bind through the package-tools hook rather than overriding register().
+     * Overriding it without calling parent::register() skipped the whole
+     * package registration, so the config file was never merged and
+     * config('snooker-api') came back empty.
+     */
+    public function packageRegistered(): void
     {
-        // dd('here');
-        $this->app->singleton('snooker', function () {
-            return new SnookerService;
-        });
-    }
-
-    public function boot()
-    {
-        // dd('here');
+        $this->app->singleton('snooker', fn (): SnookerService => new SnookerService);
     }
 }
